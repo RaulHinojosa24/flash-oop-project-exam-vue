@@ -39,11 +39,15 @@ export default {
     },
     updateLocalStorage() {
       localStorage.notes = JSON.stringify(this.notes);
+      localStorage.nextId = this.nextId;
     }
   },
   mounted() {
     if (localStorage.notes) {
       this.notes = JSON.parse(localStorage.notes);
+    }
+    if (localStorage.nextId) {
+      this.nextId = localStorage.nextId;
     }
   }
 }

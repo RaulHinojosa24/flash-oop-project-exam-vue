@@ -26,11 +26,11 @@
         </div>
 
         <div v-else class="card card-body flashcard my-3">
-            <h4 class="text-capitalize" v-html="noteQuestion"></h4>
+            <h4 class="text-capitalize" v-html="note.question"></h4>
             <a href="#" class="text-capitalize my-3 show-answer" @click="showAnswer = !showAnswer">show/hide answer</a>
-            <h5 v-if="showAnswer" class="answer mb-3">{{ noteAnswer }}</h5>
+            <h5 v-if="showAnswer" class="answer mb-3">{{ note.answer }}</h5>
             <div class="flashcard-btn d-flex justify-content-between">
-                <a href="#" @click.prevent="showEditCard = !showEditCard" id="edit-flashcard"
+                <a href="#" @click.prevent="editCard" id="edit-flashcard"
                     class=" btn my-1 edit-flashcard text-uppercase" data-id="">edit</a>
                 <a href="#" @click.prevent="deleteCard" id="delete-flashcard"
                     class=" btn my-1 delete-flashcard text-uppercase">delete</a>
@@ -50,24 +50,26 @@ export default {
         return {
             showEditCard: false,
             showAnswer: false,
-            noteId: props.note.id,
-            noteQuestion: props.note.question,
-            noteAnswer: props.note.answer,
-            noteQuestionEdited: props.note.question,
-            noteAnswerEdited: props.note.answer
+            noteQuestionEdited: "",
+            noteAnswerEdited: ""
         }
     },
     methods: {
         submitEditNote() {
-            this.noteQuestion = this.noteQuestionEdited;
-            this.noteAnswer = this.noteAnswerEdited;
-            this.showEditCard = !this.showEditCard;
+            this.$emit("edit", { id: this.note.id, newData: { question: this.noteQuestionEdited, answer: this.noteAnswerEdited } });
 
-            this.$emit("edit", { id: this.noteId, newData: { question: this.noteQuestionEdited, answer: this.noteAnswerEdited } });
+            this.showEditCard = !this.showEditCard;
+            this.noteQuestionEdited = "";
+            this.noteAnswerEdited = "";
         },
         cancelEditNote() {
             this.noteQuestionEdited = this.noteQuestion;
             this.noteAnswerEdited = this.noteAnswer;
+            this.showEditCard = !this.showEditCard;
+        },
+        editCard() {
+            this.noteQuestionEdited = this.note.question;
+            this.noteAnswerEdited = this.note.answer;
             this.showEditCard = !this.showEditCard;
         },
         deleteCard() {
