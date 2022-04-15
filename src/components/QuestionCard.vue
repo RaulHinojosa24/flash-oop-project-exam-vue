@@ -73,7 +73,7 @@ export default {
             this.showEditCard = !this.showEditCard;
         },
         deleteCard() {
-            this.$emit("delete", this.noteId);
+            this.$emit("delete", this.note.id);
         }
     }
 }
