@@ -46,7 +46,7 @@ export default {
         note: Object
     },
     emits: ['delete', 'edit'],
-    data(props) {
+    data() {
         return {
             showEditCard: false,
             showAnswer: false,
@@ -63,8 +63,8 @@ export default {
             this.noteAnswerEdited = "";
         },
         cancelEditNote() {
-            this.noteQuestionEdited = this.noteQuestion;
-            this.noteAnswerEdited = this.noteAnswer;
+            this.noteQuestionEdited = "";
+            this.noteAnswerEdited = "";
             this.showEditCard = !this.showEditCard;
         },
         editCard() {
@@ -73,7 +73,7 @@ export default {
             this.showEditCard = !this.showEditCard;
         },
         deleteCard() {
-            this.$emit("delete", this.noteId);
+            this.$emit("delete", this.note.id);
         }
     }
 }
